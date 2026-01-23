@@ -1,111 +1,88 @@
 # 🧹 DataScrub
 
-**AI-powered data cleaning agent for data scientists**
+**AI-powered data cleaning agent for data scientists.**
 
-DataScrub is a local-first, privacy-focused data cleaning tool that combines rule-based automation with LLM-powered insights. Upload your messy data, get automatic fixes for common issues, and chat with an AI agent to understand and clean your data.
+DataScrub is a privacy-centric data cleaning utility that integrates rule-based automation with Large Language Model (LLM) insights. It allows users to upload raw datasets, automatically rectify common inconsistencies, and utilize an AI agent for advanced data profiling and cleaning tasks.
 
-![DataScrub Screenshot](screenshot.png)
+The application operates entirely within the client-side browser environment. It supports **Local Inference** via Ollama for air-gapped or privacy-sensitive workflows, as well as **Cloud APIs** (Groq, OpenAI, OpenRouter) for enhanced reasoning capabilities.
 
 ## Features
 
-### Automatic Cleaning (No Approval Needed)
-- ✅ Whitespace trimming
-- ✅ Missing value standardization (NULL, N/A, None, etc. → empty)
-- ✅ Duplicate row removal
+### Automatic Cleaning
+* **Whitespace Trimming**: Automatically removes leading and trailing whitespace from string fields.
+* **Standardization**: Unifies disparate missing value indicators (e.g., `NULL`, `N/A`, `None`, `-`) into standard empty cells.
+* **Deduplication**: Identifies and removes exact duplicate records.
 
-### Smart Suggestions (With Approval)
-- 🔄 Missing value imputation (mean, median, mode, custom)
-- 🗑️ Column removal for high-missing columns
-- 📊 Outlier detection and handling (IQR method)
-- 🔢 Type conversion (string → number)
+### AI Agent and Smart Suggestions
+* **Imputation**: Generates statistical recommendations for missing values (mean, median, mode).
+* **Outlier Management**: Detects statistical outliers using the Interquartile Range (IQR) method and suggests capping or removal strategies.
+* **Context-Aware Processing**: Allows users to define project-specific context (e.g., domain rules) to guide the AI's decision-making process.
+* **Natural Language Interface**: Facilitates data interrogation and cleaning through natural language queries.
 
-### AI-Powered Chat
-- 💬 Ask questions about your data
-- 🔍 Get insights and recommendations
-- 🤖 Powered by local LLMs via Ollama (your data never leaves your machine)
+### User Interface
+* **Customization**: Includes nine professional color themes.
+* **Adaptive Layout**: Features a resizable workspace and control panel to accommodate various screen configurations.
+* **Version Control**: Implements a full history stack with undo/redo functionality for safe data manipulation.
+
+### Multi-Provider Support
+1.  **Local (Ollama)**: Ensures data sovereignty by keeping all processing on the local machine.
+2.  **Groq**: Provides low-latency inference suitable for rapid iteration.
+3.  **OpenRouter/OpenAI**: Enables connection to high-performance frontier models.
+
+---
 
 ## Quick Start
 
-### 1. Install Ollama
+### Option A: Privacy-First (Local Ollama)
+Recommended for sensitive data. No internet connection is required post-configuration.
 
-Download from [ollama.com](https://ollama.com)
+1.  **Install Ollama**: Download the installer from the official Ollama website.
+2.  **Pull a Model**: Execute the following command in your terminal:
+    ```bash
+    ollama pull qwen2.5:7b
+    # Alternatives: llama3.1:8b, mistral, gemma2
+    ```
+3.  **Configure CORS**:
+    * **macOS/Linux**: `OLLAMA_ORIGINS="*" ollama serve`
+    * **Windows (PowerShell)**: `$env:OLLAMA_ORIGINS="*"; ollama serve`
+4.  Launch DataScrub and select **Ollama** in the settings menu.
 
-### 2. Pull a model
+### Option B: Cloud API (Groq / OpenAI)
+Recommended for performance on hardware without dedicated GPUs.
 
-```bash
-ollama pull qwen3:8b
-```
+1.  Obtain an API Key from your preferred provider (e.g., Groq Console or OpenAI).
+2.  Navigate to **Settings** within DataScrub.
+3.  Select the provider and input your API Key.
+    * *Note: API keys are stored in the browser's local storage and are never transmitted to DataScrub servers.*
 
-Other recommended models:
-- `gemma3:12b` - Good reasoning, needs ~9GB RAM
-- `llama3.1:8b` - Great all-rounder
-- `mistral:7b` - Fast and capable
+---
 
-### 3. Start Ollama with CORS enabled
+## Hosting
 
-**macOS/Linux:**
-```bash
-OLLAMA_ORIGINS="*" ollama serve
-```
+The application is a self-contained static file. It can be executed by opening `index.html` directly or hosted via GitHub Pages:
 
-**Windows (PowerShell):**
-```powershell
-$env:OLLAMA_ORIGINS="*"; ollama serve
-```
+1.  Fork this repository.
+2.  Navigate to **Settings** > **Pages**.
+3.  Set the source branch to **main**.
+4.  The application will be accessible at `https://yourusername.github.io/datascrub`.
 
-**Windows (Command Prompt):**
-```cmd
-set OLLAMA_ORIGINS=* && ollama serve
-```
+---
 
-### 4. Open DataScrub
+## Privacy and Security
 
-Open `index.html` in your browser, or host it on GitHub Pages.
+DataScrub is architected as a **client-side application**.
 
-## Hosting on GitHub Pages
+* **Local Mode**: When using Ollama, data processing is entirely local. No data leaves the user's device.
+* **Cloud Mode**: When using third-party APIs (OpenAI, Groq), only necessary data snippets (schema, summaries, or specific queries) are transmitted to the provider for processing.
+* **Credential Management**: API keys are persisted in the browser's `localStorage` for convenience but can be cleared at any time.
 
-1. Fork this repository
-2. Go to Settings → Pages
-3. Set source to "main" branch
-4. Your app will be live at `https://yourusername.github.io/datascrub`
+---
 
-## Supported File Formats
+## Technical Stack
 
-| Format | Extension | Notes |
-|--------|-----------|-------|
-| CSV | `.csv` | Comma-separated values |
-| Excel | `.xlsx`, `.xls` | First sheet only |
-| JSON | `.json` | Array of objects |
-
-## System Requirements
-
-- **Browser:** Chrome, Firefox, Safari, Edge (modern versions)
-- **For AI features:** Ollama running locally
-- **RAM for Ollama:**
-  - 8B models: ~6GB
-  - 12B models: ~9GB
-
-## Privacy
-
-DataScrub is designed with privacy in mind:
-- 🔒 All data processing happens in your browser
-- 🏠 AI runs locally via Ollama (no cloud APIs)
-- 📡 No data is sent to external servers
-- 💾 Nothing is stored between sessions
-
-## Tech Stack
-
-- Vanilla HTML/CSS/JS (no build step required)
-- [Papa Parse](https://www.papaparse.com/) for CSV parsing
-- [SheetJS](https://sheetjs.com/) for Excel files
-- [Ollama](https://ollama.com/) for local LLM inference
-
-## Contributing
-
-Contributions welcome! Feel free to:
-- Report bugs
-- Suggest features
-- Submit pull requests
+* **Core**: HTML5, CSS3, JavaScript (ES6+).
+* **Data Parsing**: PapaParse (CSV), SheetJS (Excel).
+* **Architecture**: Serverless, single-file deployment.
 
 ## License
 
