@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00b894;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="url(#grad)"/>
+  <!-- Brush/broom handle -->
+  <rect x="28" y="8" width="8" height="32" rx="2" fill="#0d0f12"/>
+  <!-- Brush bristles -->
+  <path d="M20 40 Q20 52 32 56 Q44 52 44 40 L44 38 L20 38 Z" fill="#0d0f12"/>
+  <!-- Sparkle 1 -->
+  <circle cx="50" cy="14" r="3" fill="#fff" opacity="0.9"/>
+  <!-- Sparkle 2 -->
+  <circle cx="14" cy="20" r="2" fill="#fff" opacity="0.7"/>
+  <!-- Sparkle 3 -->
+  <circle cx="52" cy="28" r="1.5" fill="#fff" opacity="0.6"/>
+</svg>
